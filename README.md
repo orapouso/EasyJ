@@ -1,10 +1,7 @@
-********************************************************
-* EasyJ Library
-*
-* A collection of small simple libraries to simplify some tasks when dealing with JEE application.
-* 
-* It deals with JPA, Bean Validation, Spring, Http Client and so on.
-********************************************************
+EasyJ Library
+========================================================
+A collection of small simple libraries to simplify some tasks when dealing with JEE application.
+It deals with JPA, Bean Validation, Spring, Http Client and so on.
 
 The library is divided in four small libs:
 
@@ -14,9 +11,7 @@ The library is divided in four small libs:
  - EasyJ REST - A @Controller class structure to deal with common REST tasks to CRUD entities
 
 
-********************************************************
-* Dependencies:
-********************************************************
+Dependencies:
 
  Each library has its set o dependency but generally they depend on the libraries bellow
 
@@ -27,4 +22,3 @@ The library is divided in four small libs:
  - Commons Http Client 3.1
  - Hibernate Validator 4.1.*
  - Hibernate JPA 3.6.*
-
