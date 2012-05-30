@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+        <action>
+            <actionName>CUSTOM-Versions Deps</actionName>
+            <displayName>Versions Deps</displayName>
+            <goals>
+                <goal>versions:display-dependency-updates</goal>
+            </goals>
+        </action>
+    </actions>

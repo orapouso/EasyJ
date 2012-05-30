@@ -1,0 +1,49 @@
+********************************************************
+* EasyJ CHANGELOG
+********************************************************
+
+********************************************************
+* Version 1.1.0
+********************************************************
+ - Major merge of small libs into one library for easier pom inheritance and scm
+ - Added repository deployment with basic javadoc and complete sources to http://nexus.easyj.org
+ - Added Apache 2.0 Licensing
+ - Upgraded to Spring 3.1.1
+
+ * EasyJ REST
+	- Changed lib name to REST
+	- Added Exception handlers to answer http status code errors
+	- Added testing environment
+	- Incorporated EasyJ Validation lib
+	- Added primary HTML form mappings to create and edit
+	- Added @ViewMappings to map view names for HTML response
+
+ * EasyJ ORM
+	- Upgraded Dao and Service to work better, returning useful results, not status strings, and throwing and catching correct exceptions
+	- Separated generic orm methods from concrete technology driven implementations
+
+ * EasyJ Http
+	- Added support to ignore redirect statuses so that HttpClient doesn't redirect automatically
+	
+
+
+********************************************************
+* Version 1.0.3
+********************************************************
+
+ - Moved @Transactional annotation to service layer from dao layer
+
+********************************************************
+* Version 1.0.2
+********************************************************
+
+ - Status code is now returned right from the HttpResponse object that is returned by HttpClient.execute. If there is no response, returns -1.
+ - Caches string response once it is requested in consumeString until it is cleared, so you can call consumeString multiple times and it returns the cached string each time.
+ - Stopped clearing the EasyClient on consumeString so, the user has to clear it if it plans to use the same object again.
+
+********************************************************
+* Version 1.0.1
+********************************************************
+
+ - Added some log lines and translated those that were not in english
+ - Added a property viewName to UncaughtExceptionHandler so you can customize the exception view name on spring configuration file

@@ -1,0 +1,35 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <parent>
+        <groupId>org.easyj</groupId>
+        <artifactId>easyj</artifactId>
+        <version>1.1.0</version>
+    </parent>  
+
+    <modelVersion>4.0.0</modelVersion>
+    <artifactId>easyj-orm</artifactId>
+    <version>1.1.0</version>
+    <packaging>jar</packaging>
+    <name>EasyJ ORM ${project.version}</name>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.hibernate</groupId>
+            <artifactId>hibernate-entitymanager</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-orm</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <!-- Deps Versions -->
+        <hibernate.version>4.0.0.Final</hibernate.version>
+    </properties>
+
+    <!-- <build>, <profiles>, <distributionManagement> inherited from parent pom -->    
+
+</project>
