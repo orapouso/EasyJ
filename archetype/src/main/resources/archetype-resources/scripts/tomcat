@@ -1,0 +1,55 @@
+#!/bin/bash
+#
+# tomcat
+#
+# chkconfig: 345 90 30
+# description: 	Start up the Tomcat servlet engine.
+
+RETVAL=$?
+
+export CATALINA_OPTS="-server -XX:MaxPermSize=256m"
+
+# -Xmx is maximum heap size
+# -XX:MaxPermSize is the permanent allocated memory, not garbage collected
+# use the line below if you need to limit memory used by tomcat
+# commom sense says that a good value is half total memory of server
+#export CATALINA_OPTS="-server -Xmx1024m -XX:MaxPermSize=256m"
+
+CATALINA_HOME="PATH_TO_INSTALLED_TOMCAT"
+
+start() {
+        if [ -f $CATALINA_HOME/bin/startup.sh ];
+          then
+	    echo $"Starting Tomcat"
+            $CATALINA_HOME/bin/startup.sh
+            echo "Using CATALINA_OPTS: $CATALINA_OPTS"
+        fi
+}
+stop() {
+        if [ -f $CATALINA_HOME/bin/shutdown.sh ];
+          then
+	    echo $"Stopping Tomcat"
+            $CATALINA_HOME/bin/shutdown.sh
+        fi
+}
+
+case "$1" in
+ start)
+        start
+	;;
+ stop)
+        stop
+ 	;;
+ restart)
+        echo $"Restarting Tomcat"
+        stop
+        sleep 10
+        start
+        ;;
+ *)
+ 	echo $"Usage: $0 {start|stop|restart}"
+	exit 1
+	;;
+esac
+
+exit $RETVAL

@@ -1,0 +1,20 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+********************************************************
+* First steps after generating project from archetype
+********************************************************
+
+1 - Configure project.properties file for your development environment
+    * Configure your web app servlet path
+    * Configure your database name, user and password
+        - Make sure the database exists
+        - Make sure the user has create rights in the database
+    * Configure your logging file path
+        - Make sure the path exists
+
+2 - Run your project from your IDE of choice
+
+After this, the tables for user, authority should have been created.
+
+You can add new users through /web.app.path/admin/user

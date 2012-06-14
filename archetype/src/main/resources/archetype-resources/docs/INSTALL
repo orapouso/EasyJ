@@ -1,0 +1,110 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+********************************************************
+* System installation instructions for ${symbol_dollar}{project.name}
+*
+* Version: ${symbol_dollar}{project.version}
+*
+* Author: Rafael Raposo
+*
+********************************************************
+
+Dependencies:
+java-runtime-environment (JRE) 5 or greater
+apache-tomcat 6.0.32 or greater installed and configured
+mysql 5 or greater installed and configured
+
+1. Pre-install
+==============================
+
+    Shutdown Apache Tomcat instance if it is running.
+
+
+2. Installation
+==============================
+
+    Run instalation script and follow instructions:
+	./install.sh
+
+    In case help is needed:
+        ./install.sh -h
+
+3. Users
+======================================
+
+    ROLE_USER and ROLE_ADMIN are the only user roles in the system right now.
+    To access restricted content, the user must have the role: ROLE_ADMIN.
+
+    There are two ways of control access.
+
+    3.1 Database
+    ==================================================
+
+        Insert a new user in auth_user table and his access roles in athority_user table.
+
+
+    3.2 File: $APP_BASE$/config/users.properties
+    ==================================================
+        1. The system accepts users through this properties file on the following format:
+           #username=password,role[,role][,enabled|disabled]
+           The items between [] are optional.
+           To add more than one role, just separate them with commas.
+
+        2. Adding or changing existing users
+           You can uncomment existing users or create new ones, but any changes to the users file should be followed by a application or server restart.
+           The password is MD5 encrypted, so you must generate an MD5 password before adding or modifying any user.
+           On linux, use the following command:
+           echo -n "<PASSWORD-TO-BE-USED>" | md5sum
+           Copy and past the result in the password field of the new or existing user.
+
+4. Apache Tomcat
+==============================
+
+    4.1 Installation and Configuration
+    ==================================================
+
+    Don't ever auto-install Tomcat from any distribution repository.
+
+        1. Download the last version 6(SIX) from: http://tomcat.apache.org/download-60.cgi
+        2. Execute: tar xvfz $DOWNLOAD_PATH$/apache-tomcat-6.x.y.tar.gz $INSTALLATION_PATH$
+        3. Edit file: $CATALINA_HOME$/conf/server.xml
+           Find the UNCOMMENTED line "<Connector" and change the "port" paramenter to the desired port for server.
+           Save, exit.
+        4. Start Apache Tomcat
+           Run $CATALINA_HOME$/bin/startup.sh
+        5. Open the following on a browser: http://localhost:<PORT>.
+
+    The initial Tomcat page should appear, otherwise check Tomcat's log at: $CATALINA_HOME$/logs/catalina.out.
+
+    4.2 Making Tomcat start at boot time
+    ==================================================
+
+    Need root access for these steps.
+
+        1. Edit file scripts/tomcat and change CATALINA_HOME value to the installation directory of your Apache Tomcat instance.
+        2. Copy script to /etc/init.d
+           cp scripts/tomcat /etc/init.d
+        3. Change /etc/init.d/tomcat permissions to make it executable:
+           chmod 755 /etc/init.d/tomcat
+        4. Test script by running:
+           /etc/init.d/tomcat start
+        5. Verify that it is running:
+           ps aux | grep catalina
+        6. Link script to runlevels:
+            6.1 chkconfig: Check if the system has chkconfig to add the script to runlevels
+                chkconfig tomcat on
+
+            6.2 If it doesn't, attach script to /etc/rc$.d directories.
+                Execute the following commands:
+                cd /etc/rc2.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc3.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc4.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc5.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc1.d
+                ln -s ../init.d/tomcat K30tomcat
+        7. Now you should restart the server to see if it worked.

@@ -1,0 +1,20 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+********************************************************
+* README ${symbol_dollar}{project.name}
+*
+* Versão: ${symbol_dollar}{project.version}
+*
+* Autor: Rafael Raposo
+*
+********************************************************
+
+Dependências:
+java-runtime-environment (JRE) 5 ou maior
+apache-tomcat 6.0.32 ou maior instalado e configurado
+mysql 5 ou maior instalado e configurado
+
+Para procedimento de instalação: Siga os passos no arquivo INSTALL_pt_BR
+
+Para mudanças das versões: Leia o arquivo CHANGELOG

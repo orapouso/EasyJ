@@ -1,0 +1,251 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+********************************************************
+* Instruções de instalação para ${symbol_dollar}{project.name}
+*
+* Versão: ${symbol_dollar}{project.version}
+*
+* Autor: Rafael Raposo
+*
+********************************************************
+
+Dependências:
+java-runtime-environment (JRE) 5 ou maior
+apache-tomcat 6.0.32 ou maior INSTALADO e CONFIGURADO
+mysql 5 ou maior INSTALADO e CONFIGURADO
+
+Conteúdo:
+1. Preparação
+2. Instalação
+  2.1 Instalação automática
+  2.2 Instalação manual Nova
+  2.3 Atualização manual de alguma versão anterior
+3. Usuários de acesso ao sistema
+4. Instalar e Configurar Apache Tomcat
+5. Resumo para Nova Instalação
+6. Legenda
+
+
+1. Preparação
+==============================
+
+    Ir para o diretório aonde o arquivo de instalação foi baixado (Ex: /root)
+    cd /root
+
+    Descompactar o arquivo neste diretório:
+    tar xvfz ${symbol_dollar}{project.artifactId}-x.y.z.tar.gz (aonde x.y.z é a versão do arquivo)
+
+    Entrar no diretório que foi criado depois da descompactação.
+    cd ${symbol_dollar}{project.artifactId}-x.y.z (aonde x.y.z é a versão do arquivo)
+
+    Este diretório será chamado de $INSTALACAO_TMP$ pelo resto do documento.
+
+
+2. Instalação
+==============================
+
+2.1 Instalação automática
+==============================
+
+    Esta instalação serve tanto para novas ou para atualizações de versões anteriores
+
+    1. Rodar o script de instalação:
+	./install.sh
+
+    2. Seguir as instruções necessárias
+
+    Caso precise de ajuda: ./install.sh -h
+
+    Modo avançado:
+        ./install [-h] [-c] [-u usuario do banco] [-p senhao do banco] [-P caminho para o Tomcat]
+        Itens entre [] são opcionais. Caso não fornecido será perguntado, se necessário
+
+
+2.2 Instalação manual Nova
+==============================
+
+    2.2.1 Bancos de Dados
+    ==============================
+
+    Entrar no diretório "$INSTALACAO_TMP$/database" e execute o script de criação:
+
+        1. cd $INSTALACAO_TMP$/database
+
+        2. Entre no mysql (Ex: usuário root e sem senha)
+           mysql -u root -p
+           Ao pedir a senha: Enter
+
+        3. Execute o script create.sql dentro do mysql
+           source create.sql
+
+           IMPORTANTE: Só execute este script se estiver fazendo uma instalção nova do servidor
+           De outra forma, ele apagará o banco de dados inteiro sem possibilidade de recuperação dos dados.
+
+    2.2.2 Aplicação Web
+    ==============================
+
+    Certificar que o Tomcat não esteja rodando.
+        1. $INSTALACAO_TOMCAT$/bin/shutdown.sh
+
+    Criar diretórios de log e instalar a aplicação:
+
+        1. Criar os diretórios de log:
+           mkdir ${symbol_dollar}{log4j.fileappender.path}
+           Se o Tomcat não for iniciado como root executar o seguinte comando:
+           chown <USUARIO_QUE_RODA_TOMCAT> ${symbol_dollar}{log4j.fileappender.path}
+
+        2. Copiar ou mover $INSTALACAO_TMP$/bin/${symbol_dollar}{project.artifactId}.war para $INSTALACAO_TOMCAT$/webapps:
+           cp $INSTALACAO_TMP$/bin/${symbol_dollar}{project.artifactId}.war $INSTALACAO_TOMCAT$/webapps
+
+        3. Inicie o Apache Tomcat
+
+        4. Abrir o browser e entrar com o endereço: http://localhost:<PORTA>/${project.artifactId}    Caso precise de instruções para instalar o Tomcat ou configurá-lo, ir para seção 4.
+           Se aparecer a tela com o título de Servidor de Contribuição, a instalação foi bem sucedida, de outra forma deve-se verificar o log em $INSTALACAO_TOMCAT$/logs/catalina.out.
+
+
+2.3 Atualização manual de alguma versão anterior
+=================================================
+
+    2.3.1 Banco de Dados
+    ==============================
+
+    Verifique a versão da aplicação instalada no arquivo: $INSTALACAO_TOMCAT$/webapps/${project.artifactId}/version
+
+        1. Execute o script patch-to-x.y.z.sql (aonde x.y.z é a versão para onde o patch deve ser aplicado) na ordem da versão mais velha até a versão mais nova, se a versão instalada estiver muito atrás da versão atual.
+           Exemplo: Se estiver atualizando para a versão 1.8.0 e a versão instalada no servidor for a 1.6.0 e existirem 3 arquivos patch no diretório database:
+               - patch-to-1.5.0.sql
+               - patch-to-1.6.8.sql
+               - patch-to-1.8.0.sql
+               Os scripts devem ser rodados na seguinte ordem: "patch-to-1.6.8.sql" e depois "patch-to-1.8.0.sql".
+               Ambos arquivos são de de uma versão mais nova do que a versão instalada (1.6.0).
+
+    2.3.2 Aplicação Web
+    ==============================
+
+    Tenha certeza de que a instância do Apache Tomcat não está rodando antes de seguir os próximos passos.
+
+        1. Remover ou mover a instalação anterior do webapp
+           rm $INSTALACAO_TOMCAT$/webapps/${project.artifactId}*
+
+        2. Copiar ou mover $INSTALACAO_TMP$/bin/${project.artifactId}.war para o webapps do Tomcat: $INSTALACAO_TOMCAT$/webapps:
+           cp $INSTALACAO_TMP$/bin/${symbol_dollar}{project.artifactId}.war $INSTALACAO_TOMCAT$/webapps
+
+        3. Inicie o Apache Tomcat
+
+        4. Abrir o browser e entrar com o endereço: http://localhost:<PORTA>/${symbol_dollar}{project.artifactId}
+
+
+3. Usuários de acesso ao sistema
+======================================
+
+    ROLE_USER e ROLE_ADMIN são as duas únicas permissões no sistema atualmente.
+    Para acessar conteúdo restrito o usuário precisa ter a permissão: ROLE_ADMIN.
+
+    Há dois meios de controle de acesso:
+
+    3.1 Banco de Dados
+    ======================================
+
+        Inserir novo usuário na tabela auth_user e sua permissão na tabela athority_user.
+
+
+    3.2 Arquivo: $INSTALACAO_TOMCAT$/webapps/${project.artifactId}/config/users.properties
+    ======================================
+
+        1. O arquivo aceita usuários no seguinte formato:
+           #username=password,permissao[,permissao][,enabled|disabled]
+           Os itens entre [] são opicionais.
+           Para adicionar mais de uma permissão, basta separá-las por vírgulas.
+
+        2. Adicionando ou atualizando usuários existentes
+           É possível descomentar os usuários existentes ou criar novos usuários seguindo os modelos.
+           A senha está codificada em MD5, então é necessário gerar uma senha MD5 antes de adicionar ou modificar algum usuário.
+           No linux é possível gerar uma string MD5 com o seguinte comando:
+           echo -n "SENHA-A-SER-USADA" | md5sum
+           Copie e cole o resultado no campo password do usuário criado ou modificado.
+           É necessário restartar o tomcat caso o arquivo seja modificado.
+
+
+4. Instalar e Configurar Apache Tomcat
+=========================================
+
+    4.1 Instalação e Configuração
+    =======================================
+
+    Nunca faça o auto-install de qualquer repositório de qualquer distribuição Linux.
+
+        1. Baixar o tar.gz da última versão 6 (SEIS) do endereço: http://tomcat.apache.org/download-60.cgi
+        2. Executar tar xvfz $LOCAL_DOWNLOAD$/apache-tomcat-6.x.y.tar.gz -C $LOCAL_INSTALACAO$
+        3. Editar o arquivo: $INSTALACAO_TOMCAT$/conf/server.xml
+           Encontre a linha DESCOMENTADA "<Connector" e mudar o parâmetro "port" para a porta desejada.
+           Salvar e sair.
+        4. Iniciar Apache Tomcat
+            - Execute $INSTALACAO_TOMCAT$/bin/startup.sh
+        5. Abra o seguinte endereço no browser: http://localhost:<PORT>.
+
+    Se aparecer a página inicial do Tomcat a instalação foi bem sucedida, de outra forma deve-se verificar o log em $INSTALACAO_TOMCAT$/logs/catalina.out.
+
+    4.2 Fazendo o Apache Tomcat iniciar no boot
+    ==================================================
+
+    É preciso ter acesso de root para os próximos passos
+
+        1. Edite o arquivo scripts/tomcat e mude o valor do CATALINA_HOME para o diretório de instalação da instância do Apache Tomcat.
+           Ex: Tomcat está instalado em "/opt/apache-tomcat-6.0.32"
+           CATALINA_HOME="/opt/apache-tomcat-6.0.32"
+        2. Copie o script para /etc/init.d
+           cp scripts/tomcat /etc/init.d
+        3. Mude as permissões do script acima para torná-lo executável:
+           chmod 755 /etc/init.d/tomcat
+        4. Teste o script executando o comando:
+           /etc/init.d/tomcat start
+        5. Verifique que está rodando:
+           ps aux | grep catalina
+        6. Ligar o script aos runlevels:
+            6.1 chkconfig: Verifique se o sistema tem o chkconfig e adicione o script aos runlevels corretos
+                Execute: chkconfig tomcat on
+
+            6.2 Se não tiver, ligue o script acima aos diretórios /etc/rc$.d.
+                Execute os seguintes comandos:
+                cd /etc/rc2.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc3.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc4.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc5.d
+                ln -s ../init.d/tomcat S90tomcat
+                cd /etc/rc1.d
+                ln -s ../init.d/tomcat K30tomcat
+        7. Agora reinicie o servidor para ver se funcionou.
+
+
+5. Resumo para Nova Instalação
+==============================
+
+Versão de exemplo: ${symbol_dollar}{project.version}
+Local do arquivo ${symbol_dollar}{project.artifactId}-${symbol_dollar}{project.version}.tar.gz: /root
+Local de instalação do tomcat: /opt/apache-tomcat-6.0.32
+
+cd /root
+tar xvfz ${symbol_dollar}{project.artifactId}-${symbol_dollar}{project.version}.tar.gz
+cd ${symbol_dollar}{project.artifactId}-${symbol_dollar}{project.version}
+chmod 755 install.sh
+./install.sh
+
+
+6. Legenda
+==============================
+
+$INSTALACAO_TMP$ : Diretório aonde o arquivo ${symbol_dollar}{project.artifactId}-x.y.z.tar.gz foi decompactado
+    Ex: /root/${symbol_dollar}{project.artifactId}-${symbol_dollar}{project.version}
+
+$INSTALACAO_TOMCAT$ : Diretório de instalação do Tomcat:
+    Ex: /opt/apache-tomcat-6.0.32
+
+$LOCAL_DOWNLOAD$ : Diretório aonde os arquivos de instalação foram enviados
+    Ex: /root
+
+$LOCAL_INSTALACAO$ : Diretório aonde o Tomcat será instalado
+    Ex: /opt

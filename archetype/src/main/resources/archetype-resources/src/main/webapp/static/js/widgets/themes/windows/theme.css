@@ -1,0 +1,78 @@
+body{margin:0px;}
+
+/*Desktop*/
+.windows.dt-basic {position: fixed; top:0px; left:0px; background:#FFF;}
+
+/*Window*/
+.windows .wd-basic           {position:absolute; background:#FFF; float:left;}
+
+.windows .wd-basic .wd-window .wd-title     {width:100%; line-height:28px; cursor:default; color:#000!important; font-size:12px; font-weight:bold; font-family:verdana; white-space:nowrap;}
+.windows .wd-basic .wd-window .wd-box       {overflow:auto;}
+
+.windows .wd-basic .wd-window .wd-header    {height:28px; background:#F00; overflow:hidden;}
+.windows .wd-basic .wd-window .wd-body      {background:#FFF;}
+.windows .wd-basic .wd-window .wd-footer    {height:0px; font-size:1px; border-bottom:1px solid #737976; _border:0px; background:#FFF;}
+
+.windows .wd-basic .wd-window .wd-lef       {height:100%; padding-left:10px; border-left:1px solid #737976;}
+.windows .wd-basic .wd-window .wd-cen       {height:100%; vertical-align:middle;}
+.windows .wd-basic .wd-window .wd-rig       {height:100%; padding-right:6px; border-right:1px solid #737976;}
+
+.windows .wd-basic .wd-controls             {position:absolute; top:4px; right:5px;}
+.windows .wd-basic .wd-controls div         {float:left; width:20px; height:20px; cursor:pointer; background-repeat: no-repeat;}
+.windows .wd-basic .wd-controls .wd-pin     {background-image:url(window/pin.png);}
+.windows .wd-basic .wd-controls .wd-unpin   {background-image:url(window/unpin.png)!important;}
+.windows .wd-basic .wd-controls .wd-max     {background-image:url(window/maximize.png);}
+.windows .wd-basic .wd-controls .wd-min     {background-image:url(window/minimize.png);}
+.windows .wd-basic .wd-controls .wd-restore {background-image:url(window/restore.png);}
+.windows .wd-basic .wd-controls .wd-close   {background-image:url(window/close.png);}
+.windows .wd-basic .wd-controls .disabled   {cursor:auto!important;}
+.windows .wd-basic .wd-controls .wd-restore.disabled {background-image:url(window/restore-disabled.png)!important;}
+.windows .wd-basic .wd-controls .wd-max.disabled     {background-image:url(window/maximize-disabled.png)!important;}
+.windows .wd-basic .wd-controls .wd-min.disabled     {background-image:url(window/minimize-disabled.png)!important;}
+
+.windows .wd-basic .wd-resize         {position:absolute;}
+.windows .wd-basic .wd-resize.wd-vert {width:4px;  height:100%; top:0px; cursor:w-resize;}
+.windows .wd-basic .wd-resize.wd-hori {width:100%; height:4px; left:0px; cursor:n-resize;}
+.windows .wd-basic .wd-resize.wd-diag {width:4px;  height:4px;}
+.windows .wd-basic .wd-resize.wd-n    {top:0px;}
+.windows .wd-basic .wd-resize.wd-s    {bottom:0px;}
+.windows .wd-basic .wd-resize.wd-e    {right:0px}
+.windows .wd-basic .wd-resize.wd-w    {left:0px;}
+.windows .wd-basic .wd-resize.wd-n.wd-w {cursor:nw-resize;}
+.windows .wd-basic .wd-resize.wd-n.wd-e {cursor:ne-resize;}
+.windows .wd-basic .wd-resize.wd-s.wd-w {cursor:sw-resize;}
+.windows .wd-basic .wd-resize.wd-s.wd-e {cursor:se-resize;}
+
+.windows .wd-lockFilter   {background:#000; width:100%; height:100%; position:fixed; left:0px; top:0px; _position:absolute;}
+
+.windows .wd-minimize-area {position:absolute; left:0px; bottom:0px;}
+
+/*Taskbar*/
+.windows .ct-taskbar       {bottom:0px; width:100%; height:30px; position: fixed;}
+.windows .ct-subtaskbar    {float:left; height:100%; cursor:default; overflow:hidden;}
+.windows .ct-menubar       {background: url(taskbar/menubg.png) repeat-x; width:100px;}
+.windows .ct-menubar:hover {background-image: url(taskbar/menubg-over.png);}
+.windows .ct-windowbar     {background: url(taskbar/windowsbg.png) repeat-x;}
+.windows .ct-desktopbar    {background: url(taskbar/clockbg.png) repeat-x; border-left: 1px solid #000;}
+.windows .ct-clockbar      {background: url(taskbar/clockbg.png) repeat-x; width:100px; border-left: 1px solid #000;}
+
+.windows .ct-window        {float:left; width:100px; height:15px; margin-top:3px; margin-left:3px; background: url(taskbar/windowbg.png) repeat-x; padding: 5px 10px; font-size:13px; font-family: arial; color:#FFF; overflow: hidden;}
+.windows .ct-window:hover  {background-image: url(taskbar/windowbg-over.png)!important;}
+.windows .ct-window.focus  {background-image: url(taskbar/windowbg-focus.png)!important; border-left: 1px solid #08296F; border-right: 1px solid #0E3C9F;}
+.windows .ct-window .label {white-space: nowrap;}
+
+.windows .ct-desktop       {width:30px; height:22px; border:1px solid #000; margin-top: 3px; margin-right: 4px; float:left;}
+.windows .ct-desktop:first-child{margin-left:4px;}
+
+/*Shortcut*/
+.windows .sc-basic {cursor:default; position: absolute; width:72px;}
+.windows .sc-basic.fixed{position:relative!important; margin:7px 0px;}
+.windows .sc-basic.ghost {border:1px solid dotted #333;}
+.windows .sc-basic .icon{height:32px; margin-bottom: 3px;}
+.windows .sc-basic .title{background: transparent; text-align: center; font-family: arial; font-size:11px;}
+.windows .sc-basic.focus .title span{background: #316AC5!important; color: #FFF; padding:0px 2px;}
+
+.windows .sc-basic.sc-default .icon img{width:26px; height:32px; margin-left:23px;}
+.windows .sc-basic.sc-monitor .icon img{width:32px; height:23px; margin-left:20px; margin-top:4.5px;}
+.windows .sc-basic.sc-contribuicao .icon img{width:32px; height:32px; margin-left:20px;}
+.windows .sc-basic.sc-google .icon img{width:32px; height:32px; margin-left:20px;}

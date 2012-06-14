@@ -1,0 +1,59 @@
+#set( $symbol_pound = '#' )
+#set( $symbol_dollar = '$' )
+#set( $symbol_escape = '\' )
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.0 http://maven.apache.org/xsd/assembly-1.1.0.xsd">
+  <id>bin</id>
+  <formats>
+    <format>tar.gz</format>
+    <format>zip</format>
+  </formats>
+  <fileSets>
+    <fileSet>
+      <directory>${symbol_dollar}{project.basedir}/docs</directory>
+      <outputDirectory>/</outputDirectory>
+      <lineEnding>unix</lineEnding>
+      <filtered>true</filtered>
+      <includes>
+        <include>README*</include>
+        <include>INSTALL*</include>
+        <include>CHANGELOG*</include>
+      </includes>
+    </fileSet>
+    <fileSet>
+      <directory>${symbol_dollar}{project.basedir}/database</directory>
+      <outputDirectory>/database</outputDirectory>
+      <lineEnding>unix</lineEnding>
+      <filtered>true</filtered>
+    </fileSet>
+    <fileSet>
+      <directory>${symbol_dollar}{project.basedir}/scripts</directory>
+      <outputDirectory>/</outputDirectory>
+      <filtered>true</filtered>
+      <fileMode>0755</fileMode>
+      <includes>
+        <include>install.sh</include>
+        <include>uninstall.sh</include>
+      </includes>
+      <lineEnding>unix</lineEnding>
+    </fileSet>
+    <fileSet>
+      <directory>${symbol_dollar}{project.basedir}/scripts</directory>
+      <outputDirectory>/scripts</outputDirectory>
+      <filtered>true</filtered>
+      <fileMode>0755</fileMode>
+      <includes>
+        <include>tomcat</include>
+      </includes>
+      <lineEnding>unix</lineEnding>
+    </fileSet>
+    <fileSet>
+      <directory>${symbol_dollar}{project.build.directory}</directory>
+      <outputDirectory>/bin</outputDirectory>
+      <includes>
+        <include>*.war</include>
+      </includes>
+    </fileSet>
+  </fileSets>
+</assembly>
