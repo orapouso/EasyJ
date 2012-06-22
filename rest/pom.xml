@@ -119,6 +119,11 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>easyj</id>
+            <name>Repository for EasyJ lib</name>
+            <url>http://nexus.easyj.org/content/repositories/releases/</url>
+        </repository>
     </repositories>
 
 </project>
