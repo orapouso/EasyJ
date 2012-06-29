@@ -122,7 +122,7 @@ public class User implements Serializable {
         return authorities;
     }
 
-    public void setAuthories(List<Authority> authorities) {
+    public void setAuthorities(List<Authority> authorities) {
         this.authorities = authorities;
     }
 
@@ -148,7 +148,7 @@ public class User implements Serializable {
 
     @Override
     public String toString() {
-        return "com.redeglobo.deped.mavenproject2.security.User[ id=" + id + " ]";
+        return "${package}.domain.security.User[ id=" + id + " ]";
     }
     
 }

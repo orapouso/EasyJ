@@ -90,7 +90,7 @@ public class Authority implements Serializable {
 
     @Override
     public String toString() {
-        return "com.redeglobo.deped.mavenproject2.security.Authority[ id=" + id + " ]";
+        return "${package}.domain.security.Authority[ id=" + id + " ]";
     }
     
 }
