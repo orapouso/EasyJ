@@ -10,14 +10,14 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>${symbol_dollar}{project.name} - Login</title>
+        <title>${project.name} - Login</title>
         <%@include file="../../includes/main.jsp" %>
         <script type="text/javascript" src="<c:url value="/static/js/scriptaculous/scriptaculous.js?effect" />"></script>
         <script type="text/javascript" src="<c:url value="/static/js/login.js?" />"></script>
     </head>
     <body>
         <div id="main">
-            <h1>${symbol_dollar}{project.name} - Login</h1>
+            <h1>${project.name} - Login</h1>
             <div id="login">
                 <div id="loginError" style="display:none;">
                 <c:choose>

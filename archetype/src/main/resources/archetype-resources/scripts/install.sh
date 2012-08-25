@@ -126,16 +126,12 @@ done
 if [ "$TOMCAT_PATH" = "" ]; then
 	# O caminho do Tomcat não foi fornecido, procurar no filesystem
 	get_tomcat_path
-	console "Caminho encontrado para o Tomcat: \e[1;31m$TOMCAT_PATH\e[0m"
 fi
 
 if [ "$TOMCAT_PATH" != "" -a ! -f $TOMCAT_PATH/bin/catalina.sh ]; then
 	# O caminho do Tomcat foi fornecido, mas não é um caminho válido. Usar como base de busca
 	TOMCAT_FIND=$TOMCAT_PATH
 	get_tomcat_path
-	console "Caminho informado para o Tomcat: \e[1;31m$TOMCAT_PATH\e[0m"
-else
-	console "Caminho informado para o Tomcat: \e[1;31m$TOMCAT_PATH\e[0m"
 fi
 
 if [ ! -f $TOMCAT_PATH/bin/catalina.sh ]; then
@@ -146,6 +142,13 @@ if [ ! -f $TOMCAT_PATH/bin/catalina.sh ]; then
 	usage
 	exit 1
 fi
+
+EXEC_PATH=`pwd`
+cd $TOMCAT_PATH
+TOMCAT_PATH=`pwd`
+cd $EXEC_PATH
+
+console "Caminho informado para o Tomcat: \e[1;31m$TOMCAT_PATH\e[0m"
 
 if [ ! -d $TOMCAT_PATH/webapps/$APP_PATH ]; then
 	create=1

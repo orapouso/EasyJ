@@ -35,6 +35,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Abstract class to provide basic helper methods and to be
@@ -67,14 +68,7 @@ public abstract class AbstractController {
         ModelAndView mav = new ModelAndView();
         
         if(result != null && result.hasErrors()) {
-            String resultModel = EasyView.BINDING_RESULT;
-            for(String modelKey : result.getModel().keySet()) {
-                if(result.getModel().get(modelKey) instanceof Errors) {
-                    resultModel = modelKey;
-                    break;
-                }
-            }
-            mav.addObject(resultModel, result);
+            mav.addObject(getBindingResultModelKey(result), result);
         }
         
         if(data != null) {
@@ -87,6 +81,17 @@ public abstract class AbstractController {
         }
 
         return mav;
+    }
+    
+    public String getBindingResultModelKey(BindingResult result) {
+        String resultModel = EasyView.BINDING_RESULT;
+        for(String modelKey : result.getModel().keySet()) {
+            if(result.getModel().get(modelKey) instanceof Errors) {
+                resultModel = modelKey;
+                break;
+            }
+        }
+        return resultModel;
     }
     
     public Map<Class, List<String>> getExclusions() {

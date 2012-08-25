@@ -10,62 +10,54 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Null;
 import javax.validation.constraints.Size;
-import org.easyj.rest.validation.groups.POSTChecks;
-import org.easyj.rest.validation.groups.PUTChecks;
+import org.hibernate.validator.constraints.NotEmpty;
 
 @Entity
 @Table(name = "security_authority")
 @NamedQueries({
     @NamedQuery(name = "Authority.findAll", query = "SELECT a FROM Authority a"),
-    @NamedQuery(name = "Authority.findById", query = "SELECT a FROM Authority a WHERE a.id = :id"),
-    @NamedQuery(name = "Authority.findByAuthority", query = "SELECT a FROM Authority a WHERE a.authority = :authority")})
+    @NamedQuery(name = "Authority.findById", query = "SELECT a FROM Authority a WHERE a.id = :id")})
 public class Authority implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Null(groups={POSTChecks.class})
-    @NotNull(groups={PUTChecks.class})
-    @Min(value=0, groups={PUTChecks.class})
+    @NotNull
+    @NotEmpty
+    @Size(min = 1, max = 10)
     @Column(name = "id", nullable = false)
-    private Short id;
+    private String id;
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "authority", nullable = false, length = 45)
-    private String authority;
+    @Column(name = "name", nullable = false, length = 45)
+    private String name;
 
     public Authority() {
     }
 
-    public Authority(Short id) {
+    public Authority(String id) {
         this.id = id;
     }
 
-    public Authority(String authority) {
-        this.authority = authority;
-    }
-
-    public Authority(Short id, String authority) {
+    public Authority(String id, String name) {
         this.id = id;
-        this.authority = authority;
+        this.name = name;
     }
 
-    public Short getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Short id) {
+    public void setId(String id) {
         this.id = id;
     }
 
-    public String getAuthority() {
-        return authority;
+    public String getName() {
+        return name;
     }
 
-    public void setAuthority(String authority) {
-        this.authority = authority;
+    public void setName(String name) {
+        this.name = name;
     }
 
     @Override

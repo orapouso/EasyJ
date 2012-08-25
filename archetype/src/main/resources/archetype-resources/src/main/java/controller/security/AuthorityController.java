@@ -7,6 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 @RequestMapping("/admin/authority")
-public class AuthorityController extends JPAGenericEntityController<Authority, Short>{
+public class AuthorityController extends JPAGenericEntityController<Authority, String>{
     
 }

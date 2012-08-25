@@ -7,22 +7,27 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>User ${symbol_dollar}{not empty data.id ? data.name : 'New'}</title>
+        <title>Authority ${symbol_dollar}{not empty data.id ? data.name : 'New'}</title>
         <%@include file="../../../includes/main.jsp" %>
     </head>
     <body>
-        <h1>User ${symbol_dollar}{not empty data.id ? data.name : 'New'}</h1>
+        <h1>Authority ${symbol_dollar}{not empty data.id ? data.name : 'New'}</h1>
         <div id="main">
-            <c:url var="action" value="/admin/user${symbol_dollar}{not empty data.id ? '/' : ''}${symbol_dollar}{data.id}" />
+            <c:url var="action" value="/admin/authority${symbol_dollar}{not empty data.id ? '/' : ''}${symbol_dollar}{data.id}" />
             <form:form action="${symbol_dollar}{action}" method="POST" modelAttribute="data">
                 <c:if test="${symbol_dollar}{not empty data.id}">
                 <input type="hidden" name="_method" value="PUT"/>
                 </c:if>
-                <label for="name">Name:</label><form:input path="name" /><form:errors path="name" /><br/>
-                <label for="username">Username:</label><form:input path="username" /><form:errors path="username" /><br/>
-                <label for="password">Password:</label><form:password path="password" /><form:errors path="password" /><br/>
-                <label for="enabled">Enabled?</label><form:checkbox path="enabled" /><form:errors path="enabled" /><br/>
-                <form:checkboxes items="${symbol_dollar}{authorities}" path="authorities" itemLabel="name" itemValue="authority" />
+                <label for="authority">Authority:</label>
+                <c:choose>
+                    <c:when test="${symbol_dollar}{empty data.id}">
+                        <form:input path="id" /><form:errors path="id" />
+                    </c:when>
+                    <c:otherwise>
+                        ${symbol_dollar}{data.id}
+                    </c:otherwise>
+                </c:choose><br/>
+                <label for="authority">Name:</label><form:input path="name" /><form:errors path="name" /><br/>
                 <input type="submit" value="Send"/><br/>
             </form:form>
             <c:if test="${symbol_dollar}{not empty data.id}">

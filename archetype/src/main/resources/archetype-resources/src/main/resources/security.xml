@@ -34,7 +34,7 @@
             <sec:password-encoder hash="md5" />
             <sec:jdbc-user-service
                 data-source-ref="dataSource"
-                authorities-by-username-query="select u.username, a.authority from security_user as u, security_user_authority ua, security_authority a where a.id = ua.id_authority and u.id = ua.id_user and u.username=?"
+                authorities-by-username-query="select u.username, ua.authority from security_user as u, security_user_authority ua where u.id = ua.id_user and u.username=?"
                 users-by-username-query="select username, password, enabled FROM security_user where username=?" />
         </sec:authentication-provider>
 

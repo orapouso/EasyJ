@@ -34,6 +34,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * Generic controller class to be implemented with concrete {@code @Entities}
@@ -48,14 +49,14 @@ public abstract class AbstractGenericEntityController<E extends Serializable, ID
 
     private Class<E> entityClass;
 
-    @RequestMapping(value="/create", produces={MediaType.TEXT_HTML_VALUE, MediaType.APPLICATION_XHTML_XML_VALUE, "application/html+xml"})
+    @RequestMapping(value={"/create", "/edit", "/new"}, produces={MediaType.TEXT_HTML_VALUE, MediaType.APPLICATION_XHTML_XML_VALUE, "application/html+xml"})
     public ModelAndView create() throws InstantiationException, IllegalAccessException {
         ModelAndView mav = configMAV(getEntityClass().newInstance(), getCreateViewName());
         
         return modelToForm(mav);
     }
     
-    @RequestMapping("/{id}/edit")
+    @RequestMapping(value="/{id}/edit", produces={MediaType.TEXT_HTML_VALUE, MediaType.APPLICATION_XHTML_XML_VALUE, "application/html+xml"})
     public ModelAndView edit(@PathVariable("id") ID primaryKey) throws InstantiationException, IllegalAccessException {
         ModelAndView mav;
 
@@ -71,18 +72,18 @@ public abstract class AbstractGenericEntityController<E extends Serializable, ID
     
     @Override
     @RequestMapping(method=RequestMethod.POST)
-    public ModelAndView post(@ModelAttribute("data") @Validated(POSTSequence.class) E entity, BindingResult result) {
+    public ModelAndView post(@ModelAttribute("data") @Validated(POSTSequence.class) E entity, BindingResult result, RedirectAttributes attrs) {
         logger.debug("Receiving POST Request for: " + entity.getClass().getSimpleName() + ": " + entity);
 
-        return save(entity, result, getPostViewName());
+        return save(entity, result, getPostViewName(), attrs);
     }
 
     @Override
     @RequestMapping(value="/{id}", method=RequestMethod.PUT)
-    public ModelAndView put(@ModelAttribute("data") @Validated(PUTSequence.class) E entity, BindingResult result, @PathVariable("id") ID id) {
+    public ModelAndView put(@ModelAttribute("data") @Validated(PUTSequence.class) E entity, BindingResult result, @PathVariable("id") ID id, RedirectAttributes attrs) {
         logger.debug("Receiving PUT Request for: " + entity.getClass().getSimpleName() + ": " + entity);
 
-        return save(entity, result, getPutViewName().replace("{id}", id.toString()));
+        return save(entity, result, getPutViewName().replace("{id}", id.toString()), attrs);
     }
     
     @Override
@@ -132,16 +133,16 @@ public abstract class AbstractGenericEntityController<E extends Serializable, ID
         return entity;
     }
     
-    protected ModelAndView save(E entity, BindingResult result) {
-        return save(entity, result, null);
-    }
-    
-    protected ModelAndView save(E entity, BindingResult result, String viewName) {
+    protected ModelAndView save(E entity, BindingResult result, String viewName, RedirectAttributes attrs) {
+        String badRequestViewName = viewName + "/edit";
         if(entity == null || result == null) {
             logger.debug("ERROR: Cannot save: some parameter is null entity[{}], result[{}]", 
                 new Object[]{entity, result}
             );
-            throw new BadRequestException(configMAV(entity, result, getEditViewName()));
+            if(attrs != null) {
+                attrs.addFlashAttribute(getBindingResultModelKey(result), result);
+            }
+            throw new BadRequestException(configMAV(entity, result, badRequestViewName));
         } else {
             for(Validator val : getValidators()) {
                 val.validate(entity, result);
@@ -149,7 +150,10 @@ public abstract class AbstractGenericEntityController<E extends Serializable, ID
             
             if(result.hasErrors()) {
                 logger.debug("ERROR: Cannot save: missing or wrong parameters: ERRORS FOUND[{}]", result.getErrorCount());
-                throw new BadRequestException(configMAV(entity, result, getEditViewName()));
+                if(attrs != null) {
+                    attrs.addFlashAttribute(getBindingResultModelKey(result), result);
+                }
+                throw new BadRequestException(configMAV(entity, result, badRequestViewName));
             } else {
                 logger.debug("Entity SAVING: entity[" + entity + "]");
                 E retEntity = persist(entity);

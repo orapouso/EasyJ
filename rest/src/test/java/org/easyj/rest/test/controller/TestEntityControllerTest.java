@@ -61,7 +61,7 @@ public class TestEntityControllerTest {
     
     private SingleJPAEntityService singleJPAEntityService;
     
-    private static MockMvc mvc;
+    private MockMvc mvc;
     
     private TestEntity baseEntity = new TestEntity();
     private TestEntity postEntity = new TestEntity();
@@ -219,7 +219,7 @@ public class TestEntityControllerTest {
            .andExpect(status().isBadRequest())
            .andExpect(model().attribute(BINDING_RESULT_MODEL_NAME, not(nullValue())))
            .andExpect(model().attribute("data", not(nullValue())))
-           .andExpect(view().name("entity/edit"))
+           .andExpect(view().name("redirect:/entity/edit"))
            .andReturn();
 
         bindingResult = assertAndReturnModelAttributeOfType(result.getModelAndView(), BINDING_RESULT_MODEL_NAME, BindingResult.class);
@@ -240,7 +240,7 @@ public class TestEntityControllerTest {
            .andExpect(status().isBadRequest())
            .andExpect(model().attribute(BINDING_RESULT_MODEL_NAME, not(nullValue())))
            .andExpect(model().attribute("data", not(nullValue())))
-           .andExpect(view().name("entity/edit"))
+           .andExpect(view().name("redirect:/entity/edit"))
            .andReturn();
 
         bindingResult = assertAndReturnModelAttributeOfType(result.getModelAndView(), BINDING_RESULT_MODEL_NAME, BindingResult.class);
@@ -262,7 +262,7 @@ public class TestEntityControllerTest {
            .andExpect(status().isBadRequest())
            .andExpect(model().attribute(BINDING_RESULT_MODEL_NAME, not(nullValue())))
            .andExpect(model().attribute("data", not(nullValue())))
-           .andExpect(view().name("entity/edit"))
+           .andExpect(view().name("redirect:/entity/edit"))
            .andReturn();
         
         bindingResult = assertAndReturnModelAttributeOfType(result.getModelAndView(), BINDING_RESULT_MODEL_NAME, BindingResult.class);
@@ -353,7 +353,7 @@ public class TestEntityControllerTest {
            .andExpect(status().isBadRequest())
            .andExpect(model().attribute(BINDING_RESULT_MODEL_NAME, not(nullValue())))
            .andExpect(model().attribute("data", not(nullValue())))
-           .andExpect(view().name("entity/edit"))
+           .andExpect(view().name("redirect:/entity/1/edit"))
            .andReturn();
 
         bindingResult = assertAndReturnModelAttributeOfType(result.getModelAndView(), BINDING_RESULT_MODEL_NAME, BindingResult.class);
@@ -375,7 +375,7 @@ public class TestEntityControllerTest {
            .andExpect(status().isBadRequest())
            .andExpect(model().attribute(BINDING_RESULT_MODEL_NAME, not(nullValue())))
            .andExpect(model().attribute("data", not(nullValue())))
-           .andExpect(view().name("entity/edit"))
+           .andExpect(view().name("redirect:/entity/1/edit"))
            .andReturn();
         
         bindingResult = assertAndReturnModelAttributeOfType(result.getModelAndView(), BINDING_RESULT_MODEL_NAME, BindingResult.class);
